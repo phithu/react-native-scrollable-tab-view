@@ -23,6 +23,61 @@ the animations behind this work, check out the Rebound section of the
 ## Basic usage
 
 ```javascript
+import React from 'react';
+import { DefaultTabBar } from 'react-native-scrollable-tab-view';
+
+import Colors from '../../constants/Colors';
+
+export default class CustomBarTab extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <DefaultTabBar
+        {...this.props}
+        tabStyle={{ paddingBottom: 0 }}
+        activeTextColor={Colors.primaryDark}
+        inactiveTextColor={Colors.textDark}
+        backgroundColor={Colors.primaryConstraint}
+        underlineStyle={{
+          height: 2.5,
+          backgroundColor: Colors.primaryDark,
+        }}
+        textStyle={{ fontWeight: 'bold' }}
+      />
+    );
+  }
+}
+```
+
+```javascript
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { Icon } from 'react-native-elements';
+
+   render() {
+   return (
+   <ScrollableTabView
+      onChangeTab={this.onChangeTab}
+          renderTabBar={() => (
+             <CustomBarTab
+                {...this.props}
+                icons={[
+                  <Icon name='first-icon'/>,
+                  <Icon name='second-icon'/>,
+                ]}
+               />
+             )}>
+      {this.renderFirstView()}
+      {this.renderSecondView()}
+   </ScrollableTabView>
+   )
+   }
+```
+
+```javascript
 var ScrollableTabView = require('react-native-scrollable-tab-view');
 
 var App = React.createClass({
