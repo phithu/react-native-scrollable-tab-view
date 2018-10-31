@@ -23,6 +23,24 @@ the animations behind this work, check out the Rebound section of the
 ## Basic usage
 
 ```javascript
+var ScrollableTabView = require('react-native-scrollable-tab-view');
+
+var App = React.createClass({
+  render() {
+    return (
+      <ScrollableTabView>
+        <ReactPage tabLabel="React" />
+        <FlowPage tabLabel="Flow" />
+        <JestPage tabLabel="Jest" />
+      </ScrollableTabView>
+    );
+  }
+});
+```
+
+## Using Icon
+
+```javascript
 import React from 'react';
 import { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
@@ -75,22 +93,6 @@ import { Icon } from 'react-native-elements';
    </ScrollableTabView>
    )
    }
-```
-
-```javascript
-var ScrollableTabView = require('react-native-scrollable-tab-view');
-
-var App = React.createClass({
-  render() {
-    return (
-      <ScrollableTabView>
-        <ReactPage tabLabel="React" />
-        <FlowPage tabLabel="Flow" />
-        <JestPage tabLabel="Jest" />
-      </ScrollableTabView>
-    );
-  }
-});
 ```
 
 ## Injecting a custom tab bar
