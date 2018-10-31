@@ -9,6 +9,7 @@ const {
   Animated,
 } = ReactNative;
 const Button = require('./Button');
+import { Icon } from 'react-native-elements';
 
 const DefaultTabBar = createReactClass({
   propTypes: {
@@ -35,23 +36,38 @@ const DefaultTabBar = createReactClass({
   renderTabOption(name, page) {
   },
 
-  renderTab(name, page, isTabActive, onPressHandler) {
-    const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
+  renderIcon(icon, isTabActive) {
+    const { activeTextColor, inactiveTextColor } = this.props;
+    const color = isTabActive ? activeTextColor : inactiveTextColor;
+
+    if (icon !== null && React.isValidElement(icon)) {
+      return <Icon {...icon.props} color={color}/>;
+    }
+    return null;
+  },
+
+  renderTab(tab, page, isTabActive, onPressHandler) {
+    const { title, icon } = tab;
+    const { activeTextColor, inactiveTextColor, textStyle } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
+    const iconPosition = this.props.iconPosition ?
+      this.props.iconPosition : 'left';
 
     return <Button
-      style={{flex: 1, }}
-      key={name}
+      style={{ flex: 1 }}
+      key={title}
       accessible={true}
-      accessibilityLabel={name}
+      accessibilityLabel={title}
       accessibilityTraits='button'
       onPress={() => onPressHandler(page)}
     >
-      <View style={[styles.tab, this.props.tabStyle, ]}>
-        <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
-          {name}
+      <View style={[styles.tab, this.props.tabStyle]}>
+        {iconPosition === 'left' && this.renderIcon(icon, isTabActive)}
+        <Text style={[{ color: textColor, fontWeight }, textStyle]}>
+          {title}
         </Text>
+        {iconPosition === 'right' && this.renderIcon(icon, isTabActive)}
       </View>
     </Button>;
   },
@@ -69,14 +85,21 @@ const DefaultTabBar = createReactClass({
 
     const translateX = this.props.scrollValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0,  containerWidth / numberOfTabs],
+      outputRange: [0, containerWidth / numberOfTabs],
     });
     return (
-      <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor, }, this.props.style, ]}>
+      <View style={[
+        styles.tabs,
+        { backgroundColor: this.props.backgroundColor },
+        this.props.style]}>
         {this.props.tabs.map((name, page) => {
           const isTabActive = this.props.activeTab === page;
           const renderTab = this.props.renderTab || this.renderTab;
-          return renderTab(name, page, isTabActive, this.props.goToPage);
+          return renderTab({
+            title: name,
+            icon: (this.props.icons && this.props.icons[page]) ?
+              this.props.icons[page] : null,
+          }, page, isTabActive, this.props.goToPage);
         })}
         <Animated.View
           style={[
@@ -84,7 +107,7 @@ const DefaultTabBar = createReactClass({
             {
               transform: [
                 { translateX },
-              ]
+              ],
             },
             this.props.underlineStyle,
           ]}
@@ -100,6 +123,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
+    flexDirection: 'row',
   },
   tabs: {
     height: 50,
