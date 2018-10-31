@@ -92,7 +92,7 @@ import { Icon } from 'react-native-elements';
       {this.renderSecondView()}
    </ScrollableTabView>
    )
-   }
+}
 ```
 
 ## Injecting a custom tab bar
