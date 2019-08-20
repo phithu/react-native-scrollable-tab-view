@@ -96,7 +96,7 @@ const DefaultTabBar = createReactClass({
           const isTabActive = this.props.activeTab === page;
           const renderTab = this.props.renderTab || this.renderTab;
           return renderTab({
-            title: name,
+            title: this.props.upperCaseTitle ? name.toUpperCase() : name,
             icon: (this.props.icons && this.props.icons[page]) ?
               this.props.icons[page] : null,
           }, page, isTabActive, this.props.goToPage);
