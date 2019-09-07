@@ -54,22 +54,36 @@ const DefaultTabBar = createReactClass({
     const iconPosition = this.props.iconPosition ?
       this.props.iconPosition : 'left';
 
-    return <Button
-      style={{ flex: 1 }}
-      key={title}
-      accessible={true}
-      accessibilityLabel={title}
-      accessibilityTraits='button'
-      onPress={() => onPressHandler(page)}
-    >
-      <View style={[styles.tab, this.props.tabStyle]}>
-        {iconPosition === 'left' && this.renderIcon(icon, isTabActive)}
-        <Text style={[{ color: textColor, fontWeight }, textStyle]}>
-          {title}
-        </Text>
-        {iconPosition === 'right' && this.renderIcon(icon, isTabActive)}
-      </View>
-    </Button>;
+    return (
+      <Button
+        style={{ flex: 1 }}
+        key={title}
+        accessible={true}
+        accessibilityLabel={title}
+        accessibilityTraits='button'
+        onPress={() => onPressHandler(page)}
+      >
+        {(iconPosition === 'left' || iconPosition === 'right') &&
+        <View style={[styles.tab, this.props.tabStyle]}>
+          {iconPosition === 'left' && this.renderIcon(icon, isTabActive)}
+          <Text style={[{ color: textColor, fontWeight }, textStyle]}>
+            {title}
+          </Text>
+          {iconPosition === 'right' && this.renderIcon(icon, isTabActive)}
+        </View>}
+        {(iconPosition === 'top' || iconPosition === 'bottom') &&
+        <View style={[
+          styles.tab,
+          this.props.tabStyle,
+          { flexDirection: 'column' }]}>
+          {iconPosition === 'top' && this.renderIcon(icon, isTabActive)}
+          <Text style={[{ color: textColor, fontWeight }, textStyle]}>
+            {title}
+          </Text>
+          {iconPosition === 'bottom' && this.renderIcon(icon, isTabActive)}
+        </View>}
+      </Button>
+    );
   },
 
   render() {
