@@ -146,7 +146,7 @@ const ScrollableTabBar = createReactClass({
     >
       <View style={[styles.tab, this.props.tabStyle]}>
         <Text style={[{ color: textColor, fontWeight }, textStyle]}>
-          {name}
+           {this.props.upperCaseTitle ? name.toUpperCase() : name}
         </Text>
       </View>
     </Button>;
